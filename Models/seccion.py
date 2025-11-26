@@ -1,4 +1,4 @@
-class Seccion2:
+class Seccion:
     def __init__(self, id, id_biblioteca, nombre, piso):
         self.id = id
         self.id_biblioteca = id_biblioteca

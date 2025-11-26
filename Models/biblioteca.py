@@ -1,4 +1,4 @@
-class Bibliteca2:
+class Bibliteca:
     def __init__(self, id, nombre, direccion):
         self.id = id
         self.nombre = nombre
