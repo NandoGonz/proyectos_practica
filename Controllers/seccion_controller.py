@@ -1,5 +1,5 @@
-from Models.seccione import (
-    Seccione,
+from Models.seccion import (
+    Seccion,
 )  # Importa el modelo de Seccion que nuestro molde de datos
 from Config.database_config import (
     DatabaseConfig,
@@ -46,7 +46,7 @@ class SeccionController:
 
         secciones = []
         for row in results:
-            seccion = Seccione(row[0], row[1], row[2], row[3])
+            seccion = Seccion(row[0], row[1], row[2], row[3])
             secciones.append(seccion)
 
         return secciones
@@ -63,10 +63,8 @@ class SeccionController:
         self.db.disconnect()
 
         if result:
-            return Seccione(result[0], result[1], result[2], result[3])
-
-        else:
-            return {"error": "Seccion no encontrada."}
+            return Seccion(result[0], result[1], result[2], result[3])
+        return {"error": "Seccion no encontrada."}
 
     def get_secciones_by_biblioteca(self, id_biblioteca):
         """Obtiene todas las secciones de una biblioteca específica."""
@@ -100,3 +98,15 @@ class SeccionController:
             secciones.append(seccion)
 
         return secciones
+
+    def update_seccion(self, nuevo_nombre, nuevo_piso, id):
+        if not self.db.connect():
+            return {"[ERROR]": "No se pudo conectar a la base de datos"}
+
+        query = "UPDATE secciones SET nombre = %s, piso = %s WHERE id = %s;"
+        params = (nuevo_nombre, nuevo_piso, id)
+
+        cursor = self.db.execute_query(query, params)
+        self.db.disconnect()
+
+        return cursor is not None

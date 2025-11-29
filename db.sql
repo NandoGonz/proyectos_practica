@@ -1,6 +1,6 @@
 CREATE DATABASE biblioteca;
 
-USE biblioteca2;
+USE biblioteca;
 
 CREATE TABLE bibliotecas(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -73,4 +73,3 @@ INSERT INTO libros (id_seccion, id_biblioteca, nombre, generos, prologo, isbn, a
 (9, 5, 'Eloquent JavaScript', 'Programación', 'Una introducción profunda a JavaScript.', 9781593279509, 'Marijn Haverbeke'),
 (10, 5, 'Breves Respuestas a las Grandes Preguntas', 'Ciencia, Divulgación', 'Reflexiones sobre el futuro de la humanidad.', 9781984819192, 'Stephen Hawking'),
 (10, 5, 'Cosmos', 'Astronomía, Divulgación', 'Un viaje por el universo.', 9780345539434, 'Carl Sagan');
-

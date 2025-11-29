@@ -1,4 +1,4 @@
-from Models.biblioteca import Bibliteca
+from Models.biblioteca import Biblioteca
 from Config.database_config import DatabaseConfig
 
 
@@ -43,7 +43,7 @@ class BibliotecaController:
 
         bibliotecas = []
         for row in result:
-            biblioteca = Bibliteca(row[0], row[1], row[2])
+            biblioteca = Biblioteca(row["id"], row["nombre"], row["direccion"])
             bibliotecas.append(biblioteca)
         return bibliotecas
 
@@ -52,13 +52,13 @@ class BibliotecaController:
         if not self.db.connect():
             return {"error": "No se pudo conectar a la base de datos"}
 
-        query = "SELECT bibliotecas WHERE id = %s;"
+        query = "SELECT * FROM bibliotecas WHERE id = %s;"
         param = (id,)
         result = self.db.fetch_one(query, param)
         self.db.disconnect()
 
         if result:
-            return Bibliteca(result[0], result[1], result[2])
+            return Biblioteca(result["id"], result["nombre"], result["direccion"])
         else:
             return {"[ERROR]": "Biblioteca no encontrada"}
 
@@ -66,7 +66,7 @@ class BibliotecaController:
         if not self.db.connect():
             return {"error": "No se pudo conectar a la base de datos"}
 
-        query = "UPDATE bibliotecas SET nombre = %s, direccin = %s WHERE id = %s; "
+        query = "UPDATE bibliotecas SET nombre = %s, direccion = %s WHERE id = %s; "
         params = (nombre, direccion, id)
 
         cursor = self.db.execute_query(query, params)
@@ -77,7 +77,7 @@ class BibliotecaController:
         if not self.db.connect():
             return {"error": "No se pudo conectar a la base de datos"}
 
-        query = "DELETEA FROM bibliotecas WHERE ID = %s;"
+        query = "DELETE FROM bibliotecas WHERE id = %s;"
         param = (id,)
 
         cursor = self.db.execute_query(query, param)
