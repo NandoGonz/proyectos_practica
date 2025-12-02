@@ -1,3 +1,4 @@
 # aca escribos el archivo que queremos ignorar cuano lo sabmos al githun 
 
 .env 
+_pychache_

@@ -110,3 +110,26 @@ class SeccionController:
         self.db.disconnect()
 
         return cursor is not None
+
+    def delete_seccion(self, id):
+        if not self.db.connect():
+            return {"[ERROR]": "No se pudo conectar a la base de datos"}
+
+        query = "DELETE FROM secciones WHERE id = %s;"
+        params = (id,)
+
+        cursor = self.db.execute_query(query, params)
+
+        if cursor is not None:
+            if cursor.rowcount > 0:
+                self.db.disconnect()
+                return {
+                    "success": True,
+                    "message": f"Seccion con id {id} eliminada correctamente",
+                }
+            else:
+                self.db.disconnect()
+                return {
+                    "success": False,
+                    "message": f"No existe ninguna seccion con id {id}",
+                }
