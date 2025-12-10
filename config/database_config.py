@@ -25,6 +25,7 @@ class DatabaseConfig:
                 password=self.password,
                 port=self.port,
             )
+            print("Conexión a la base de datos exitosa.")
             return True
         except Error as e:
             print(f"Error al conectar a la base de datos: {e}")
@@ -41,6 +42,10 @@ class DatabaseConfig:
 
     def execute_query(self, query, params=None):
         """Ejecuta una consulta SQL."""
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        self.connection.commit()
+        return cursor
 
     def execute_and_commit(self, query, params=None):
         """
