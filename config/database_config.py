@@ -1,3 +1,5 @@
+"""Importamos las librerias que vamos a utilizar en nuestro proyecto"""
+
 import os
 import mysql.connector
 from mysql.connector import Error
@@ -7,6 +9,8 @@ load_dotenv()  # Cargar variables de entorno desde el archivo .env
 
 
 class DatabaseConfig:
+    """En la clase por medio de los parametros establecemos la conexión a la db"""
+
     def __init__(self):
         self.host = os.getenv("DB_HOST")
         self.database = os.getenv("DB_NAME")
@@ -38,41 +42,24 @@ class DatabaseConfig:
             print("Conexión a la base de datos cerrada.")
 
     def get_connection(self):
+        """Retorna la conexión de la bd"""
         return self.connection
 
     def execute_query(self, query, params=None):
         """Ejecuta una consulta SQL."""
-        cursor = self.connection.cursor()
-        cursor.execute(query, params)
-        self.connection.commit()
-        return cursor
-
-    def execute_and_commit(self, query, params=None):
-        """
-        Ejecuta una consulta de modificación (INSERT, UPDATE, DELETE)
-        y devuelve el ID del último insert o el número de filas afectadas.
-        """
         try:
             cursor = self.connection.cursor()
             cursor.execute(query, params)
             self.connection.commit()
             return cursor
-            with self.connection.cursor() as cursor:
-                cursor.execute(query, params)
-                self.connection.commit()
-                # Para INSERT, devuelve el ID. Para UPDATE/DELETE, devuelve las filas afectadas.
-                if cursor.lastrowid:
-                    return cursor.lastrowid
-                return cursor.rowcount
         except Error as e:
-            print(f"Error al ejecutar la consulta: {e}")
+            print(f"[ERROR] al ejecutar la consulta {e}")
             return None
-            return None  # O podrías devolver -1 para indicar un error
 
     def fetch_all(self, query, params=None):
         """Ejecuta una consulta SQL y devuelve todos los resultados."""
         try:
-            cursor = self.connection.cursor(dictionary=True)
+            cursor = self.connection.cursor()
             cursor.execute(query, params)
             return cursor.fetchall()
         except Error as e:
@@ -82,7 +69,7 @@ class DatabaseConfig:
     def fetch_one(self, query, params=None):
         """Ejecuta una consulta SQL y devuelve un solo resultado."""
         try:
-            cursor = self.connection.cursor(dictionary=True)
+            cursor = self.connection.cursor()
             cursor.execute(query, params)
             return cursor.fetchone()
         except Error as e:
