@@ -1,6 +1,7 @@
 from prettytable import PrettyTable
 from Controllers.biblioteca_controller import BibliotecaController
 from Controllers.seccion_controller import SeccionController
+from Controllers.libros_controller import LibroController
 
 table = PrettyTable()
 b1 = BibliotecaController()
@@ -27,3 +28,6 @@ s1 = SeccionController()
 # print(table)
 # s1.update_seccion("Literatura", 3, 11)
 # print(s1.delete_seccion(13))
+
+l1 = LibroController()
+print(l1.buscar_por_libro("Historia de España"))

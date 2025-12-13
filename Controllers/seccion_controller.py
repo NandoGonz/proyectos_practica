@@ -16,7 +16,7 @@ class SeccionController:
         cursor = self.db.execute_query(query, params)
         self.db.disconnect()
 
-        return {"Message": "Sección creada con el exitosamnete", "id": cursor.lastrowid}
+        return {"Message": "Sección creada exitosamnete", "id": cursor.lastrowid}
 
     def get_all_secciones(self):
         """Muestra todas las secciones de la biblioteca"""
