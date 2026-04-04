@@ -30,6 +30,7 @@ class LibroController:
         return {"Message": "libro creado exitosamnete", "id": cursor.lastrowid}
 
     def buscar_por_libro(self, titulo_busqueda):
+        """Busca libros por titulos un la base de datos"""
         if not self.db.connect():
             return {"[ERROR]": "No se puedo conectar ala base de datos"}
 
@@ -46,6 +47,52 @@ class LibroController:
 """
         params = (titulo_busqueda,)
 
+        cursor = self.db.fetch_all(query, params)
+        self.db.disconnect()
+
+        return cursor
+
+    def buscar_libro_por_isbn(self, isbn):
+        """Muestras los libros con el id que buscamos"""
+        if not self.db.connect():
+            return {"[ERROR]": "No se puedo conectar ala base de datos"}
+
+        query = """
+        SELECT  l.nombre AS titulo_libro, 
+                l.autores,
+                l.isbn,
+                l.generos,
+                b.nombre AS biblioteca,
+                s.nombre AS seccion,
+                s.piso
+        FROM libros AS l
+        INNER JOIN bibliotecas b ON l.id_biblioteca = b.id
+        INNER JOIN secciones AS s ON l.id_seccion = s.id
+        WHERE l.isbn = %s; 
+"""
+        params = (isbn,)
+        cursor = self.db.fetch_one(query, params)
+        self.db.disconnect()
+
+        return cursor
+
+    def buscar_libro_por_autor(self, nombre_autor):
+        """Devuele libros buscados por autor y coincidencia del nombre de este"""
+        if not self.db.connect():
+            return {"[ERROR]": "No se puedo conectar ala base de datos"}
+
+        query = """
+        SELECT 	l.nombre AS titulo_libro,
+            l.autores,
+            b.nombre AS biblioteca,
+            s.nombre AS seccion,
+            s.piso
+        FROM libros AS l 
+        INNER JOIN bibliotecas AS b ON l.id_biblioteca = b.id
+        INNER JOIN secciones AS s ON l.id_seccion = s.id
+        WHERE l.autores LIKE  %s;
+        """
+        params = (nombre_autor,)
         cursor = self.db.fetch_all(query, params)
         self.db.disconnect()
 

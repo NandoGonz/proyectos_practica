@@ -30,4 +30,6 @@ s1 = SeccionController()
 # print(s1.delete_seccion(13))
 
 l1 = LibroController()
-print(l1.buscar_por_libro("Historia de España"))
+# print(l1.buscar_por_libro("Historia de España"))
+# print(l1.buscar_libro_por_isbn(9788491053456))
+print(l1.buscar_libro_por_autor("Marquez"))
